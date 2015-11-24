@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.support.v4.content.LocalBroadcastManager;
@@ -218,6 +219,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
     }
 
+    //Lesson 3
     public void populateGeofenceList() {
         for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
 
@@ -246,5 +248,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                     .build());
         }
     }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(mGeofenceList);
+        return builder.build();
+    }
+
 
 }
