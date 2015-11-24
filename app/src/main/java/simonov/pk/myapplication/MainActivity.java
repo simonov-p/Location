@@ -3,9 +3,11 @@ package simonov.pk.myapplication;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -72,16 +74,31 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     protected void onStart() {
         super.onStart();
         // Connect the client.
-//        mGoogleApiClient.connect();
+        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
-//        if (mGoogleApiClient.isConnected()){
-//            mGoogleApiClient.disconnect();
-//        }
+        if (mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+        }
         super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        // unregister the broadcastreceiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(Constants.BROADCAST_ACTION));
+
     }
 
     @Override
