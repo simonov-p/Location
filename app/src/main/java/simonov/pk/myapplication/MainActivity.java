@@ -34,16 +34,20 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        locationView = (TextView) findViewById(R.id.location_view);
+        latidudeView = (TextView) findViewById(R.id.latitude_view);
+        longitudeView = (TextView) findViewById(R.id.longitude_view);
+        timeView = (TextView) findViewById(R.id.time_view);
+
+        buildGoogleApiClient();
+    }
+
+    protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-
-        locationView = (TextView) findViewById(R.id.location_view);
-        latidudeView = (TextView) findViewById(R.id.latitude_view);
-        longitudeView = (TextView) findViewById(R.id.longitude_view);
-        timeView = (TextView) findViewById(R.id.time_view);
     }
 
 
