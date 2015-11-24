@@ -3,6 +3,7 @@ package simonov.pk.myapplication;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,16 +15,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity  extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-
 
     private final String LOG_TAG = "Location Services Lesson 2-1";
     private TextView locationView;
@@ -36,6 +38,8 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
+
+    protected ActivityDetectionBroadcastReceiver mBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         mStatusText = (TextView) findViewById(R.id.detectedActivities);
         requestUpdatesButton = (Button) findViewById(R.id.request_activity_updates_button);
         removeUpdatesButton = (Button) findViewById(R.id.remove_activity_updates_button);
+
+        mBroadcastReceiver = new ActivityDetectionBroadcastReceiver();
 
         buildGoogleApiClient();
     }
@@ -146,7 +152,40 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            ArrayList<DetectedActivity> updatedActivities =
+                    intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
+            String strStatus = "";
+            for (DetectedActivity thisActivity : updatedActivities){
+                strStatus += getActivityString(thisActivity.getType())  + thisActivity.getConfidence() + "%\n";
+            }
+            mStatusText.setText(strStatus);
+        }
+    }
 
+    /**
+     * Returns a human readable String corresponding to a detected activity type.
+     */
+    public String getActivityString(int detectedActivityType) {
+        Resources resources = this.getResources();
+        switch(detectedActivityType) {
+            case DetectedActivity.IN_VEHICLE:
+                return resources.getString(R.string.in_vehicle);
+            case DetectedActivity.ON_BICYCLE:
+                return resources.getString(R.string.on_bicycle);
+            case DetectedActivity.ON_FOOT:
+                return resources.getString(R.string.on_foot);
+            case DetectedActivity.RUNNING:
+                return resources.getString(R.string.running);
+            case DetectedActivity.STILL:
+                return resources.getString(R.string.still);
+            case DetectedActivity.TILTING:
+                return resources.getString(R.string.tilting);
+            case DetectedActivity.UNKNOWN:
+                return resources.getString(R.string.unknown);
+            case DetectedActivity.WALKING:
+                return resources.getString(R.string.walking);
+            default:
+                return resources.getString(R.string.unidentifiable_activity, detectedActivityType);
         }
     }
 
