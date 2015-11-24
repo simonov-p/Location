@@ -255,6 +255,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
+    private PendingIntent getGeofencePendingIntent() {
+        Intent intent = new Intent(this, GeoFenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling addgeoFences()
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 
 
 }
