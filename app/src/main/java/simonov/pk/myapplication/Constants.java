@@ -78,5 +78,7 @@ public final class Constants {
 
         // Test
         BAY_AREA_LANDMARKS.put("Udacity Studio", new LatLng(37.3999497,-122.1084776));
+        BAY_AREA_LANDMARKS.put("HOME", new LatLng(59.854396, 30.341239));
+        BAY_AREA_LANDMARKS.put("WORK", new LatLng(59.884074, 30.326751));
     }
 }
