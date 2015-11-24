@@ -50,7 +50,6 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
                 .build();
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -61,7 +60,9 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+        }
         super.onStop();
     }
 
