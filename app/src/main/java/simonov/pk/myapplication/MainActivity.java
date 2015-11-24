@@ -20,6 +20,7 @@ import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.support.v4.content.LocalBroadcastManager;
@@ -275,6 +276,24 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling addgeoFences()
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
+    public void addGeofencesButtonHandler(View view) {
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    // The GeofenceRequest object.
+                    getGeofencingRequest(),
+                    // A pending intent that that is reused when calling removeGeofences(). This
+                    // pending intent is used to generate an intent when a matched geofence
+                    // transition is observed.
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+        }
+    }
 }
