@@ -21,7 +21,7 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         LocationListener {
 
 
-    private final String LOG_TAG ="LaurenceTestApp";
+    private final String LOG_TAG = "Location Services Lesson 2-1";
     private TextView locationView;
     private TextView latidudeView;
     private TextView longitudeView;
@@ -35,59 +35,59 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        locationView = (TextView) findViewById(R.id.location_view);
-        latidudeView = (TextView) findViewById(R.id.latitude_view);
-        longitudeView = (TextView) findViewById(R.id.longitude_view);
-        timeView = (TextView) findViewById(R.id.time_view);
-
-        buildGoogleApiClient();
+//        locationView = (TextView) findViewById(R.id.location_view);
+//        latidudeView = (TextView) findViewById(R.id.latitude_view);
+//        longitudeView = (TextView) findViewById(R.id.longitude_view);
+//        timeView = (TextView) findViewById(R.id.time_view);
+//
+//        buildGoogleApiClient();
     }
 
     protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addApi(LocationServices.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // Connect the client.
-        mGoogleApiClient.connect();
+//        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
-        if (mGoogleApiClient.isConnected()){
-            mGoogleApiClient.disconnect();
-        }
+//        if (mGoogleApiClient.isConnected()){
+//            mGoogleApiClient.disconnect();
+//        }
         super.onStop();
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(1000); // Update location every second
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this);
+//
+//        mLocationRequest = LocationRequest.create();
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        mLocationRequest.setInterval(1000); // Update location every second
+//
+//        LocationServices.FusedLocationApi.requestLocationUpdates(
+//                mGoogleApiClient,
+//                mLocationRequest,
+//                this);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(LOG_TAG, "GoogleApiClient connection has been suspend");
+//        Log.i(LOG_TAG, "GoogleApiClient connection has been suspend");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i(LOG_TAG, "GoogleApiClient connection has failed");
+//        Log.i(LOG_TAG, "GoogleApiClient connection has failed");
     }
 
     private void fillViews(Location location) {
@@ -103,7 +103,7 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
 
     @Override
     public void onLocationChanged(Location location) {
-        fillViews(location);
+//        fillViews(location);
 
 //        locationView.setText(Double.toString(location.getLatitude()));
     }
