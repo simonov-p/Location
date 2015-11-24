@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,6 +27,9 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     private TextView latidudeView;
     private TextView longitudeView;
     private TextView timeView;
+    private TextView mStatusText;
+    private Button requestUpdatesButton;
+    private Button removeUpdatesButton;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
@@ -39,16 +43,20 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
 //        latidudeView = (TextView) findViewById(R.id.latitude_view);
 //        longitudeView = (TextView) findViewById(R.id.longitude_view);
 //        timeView = (TextView) findViewById(R.id.time_view);
-//
-//        buildGoogleApiClient();
+
+        mStatusText = (TextView) findViewById(R.id.detectedActivities);
+        requestUpdatesButton = (Button) findViewById(R.id.request_activity_updates_button);
+        removeUpdatesButton = (Button) findViewById(R.id.remove_activity_updates_button);
+
+        buildGoogleApiClient();
     }
 
     protected synchronized void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addApi(LocationServices.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     @Override
