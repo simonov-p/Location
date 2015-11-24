@@ -95,13 +95,28 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 
     public void onResult(Status status) {
-        if (status.isSuccess()) {
-            Log.e(TAG, "Successfully added activity detection.");
+//        Lesson 2
+//        if (status.isSuccess()) {
+//            Log.e(TAG, "Successfully added activity detection.");
+//
+//        } else {
+//            Log.e(TAG, "Error adding or removing activity detection: " + status.getStatusMessage());
+//        }
 
+//        Lesson 3
+        if (status.isSuccess()) {
+            Toast.makeText(
+                    this,
+                    "Geofences Added",
+                    Toast.LENGTH_SHORT
+            ).show();
         } else {
-            Log.e(TAG, "Error adding or removing activity detection: " + status.getStatusMessage());
+            // Get the status code for the error and log it using a user-friendly message.
+            String errorMessage = GeofenceErrorMessages.getErrorString(this,
+                    status.getStatusCode());
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
