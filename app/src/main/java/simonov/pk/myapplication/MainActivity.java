@@ -28,6 +28,7 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     private TextView timeView;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +70,18 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     @Override
     public void onConnected(Bundle bundle) {
 
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(10); // Update location every second
+//        mLocationRequest = LocationRequest.create();
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        mLocationRequest.setInterval(10); // Update location every second
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            fillViews(mLastLocation);
+        }
+//        .requestLocationUpdates(
+//                mGoogleApiClient,
+//                mLocationRequest,
+//                this);
 
     }
 
@@ -90,8 +95,7 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         Log.i(LOG_TAG, "GoogleApiClient connection has failed");
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
+    private void fillViews(Location location) {
         Log.i(LOG_TAG, location.toString());
         locationView.setText(location.toString());
         latidudeView.setText(String.valueOf(location.getLatitude()));
@@ -100,6 +104,11 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
         int minute = Calendar.getInstance().get(Calendar.MINUTE);
         int second = Calendar.getInstance().get(Calendar.SECOND);
         timeView.setText(hour + ":" + minute + ":" + second);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        fillViews(location);
 
 //        locationView.setText(Double.toString(location.getLatitude()));
     }
