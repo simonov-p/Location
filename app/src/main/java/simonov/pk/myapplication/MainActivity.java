@@ -70,19 +70,14 @@ public class MainActivity  extends ActionBarActivity implements GoogleApiClient.
     @Override
     public void onConnected(Bundle bundle) {
 
-//        mLocationRequest = LocationRequest.create();
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mLocationRequest.setInterval(10); // Update location every second
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1000); // Update location every second
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            fillViews(mLastLocation);
-        }
-//        .requestLocationUpdates(
-//                mGoogleApiClient,
-//                mLocationRequest,
-//                this);
-
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient,
+                mLocationRequest,
+                this);
     }
 
     @Override
