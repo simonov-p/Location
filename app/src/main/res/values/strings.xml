@@ -16,4 +16,5 @@
     <string name="walking">Walking</string>
     <string name="unidentifiable_activity">Unidentifiable activity: %1$d</string>
     <string name="not_connected">GoogleApiClient not yet connected. Try again.</string>
+    <string name="add_geofences">Add geofences</string>
 </resources>
